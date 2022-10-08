@@ -1,3 +1,6 @@
+![Main](https://github.com/sloik/SweetBool/actions/workflows/swift.yml/badge.svg?branch=main)
+![Nightly](https://github.com/sloik/SweetBool/actions/workflows/nightly.yml/badge.svg)
+
 # SweetBool
 
 Sugar for working and using Bool type in Swift.
