@@ -1,4 +1,4 @@
-name: Swift
+name: Nightly build and test
 
 on:
   schedule:
