@@ -6,6 +6,8 @@ public extension Bool {
     /// Streamlines conditionals statements by removing
     /// explicit checks with `==`.
     ///
+    /// - Returns: Whether the Bool is **true**
+    ///
     /// ```swift
     ///
     /// if canDrinkBeer.isTrue {
@@ -21,6 +23,8 @@ public extension Bool {
     /// Streamlines conditionals statements by removing
     /// explicit checks with `==`.
     ///
+    /// - Returns: Whether the Bool is **false**
+    ///
     /// ```swift
     ///
     /// if canDrinkBeer.isFalse {
@@ -32,6 +36,8 @@ public extension Bool {
     }
 
     /// New instance with negated value.
+    ///
+    /// - Returns: The logical negation of the current value
     var negated: Bool {
         !self
     }
@@ -39,6 +45,8 @@ public extension Bool {
     /// Operator for running a closure when self is `true`.
     ///
     /// Use this operator to create pipelines that will trigger actions.
+    /// - Parameter closure: A closure to execute if the current value is **true**
+    /// - Returns: The current value
     ///
     /// ```swift
     ///
@@ -61,6 +69,9 @@ public extension Bool {
     ///
     /// Use this operator to create pipelines that will trigger actions.
     ///
+    /// - Parameter closure: A closure to execute if the current value is **false**
+    /// - Returns: The current value
+    ///
     /// ```swift
     ///
     /// canDrinkBeer
@@ -82,6 +93,10 @@ public extension Bool {
     ///
     /// Use this in longer pipelines where sticking normal operators
     /// would break the _flow_:
+    ///
+    /// - Parameter yes: A transform returning type T if the current value is **true**
+    /// - Parameter no: A transform returning type T if the current value is **false**
+    /// - Returns: A type T that is the result of the matching transform
     ///
     /// ```swift
     ///
@@ -109,6 +124,9 @@ public extension Bool {
     /// Writing more complex if statements sometimes is messy.
     /// With operators you can write them:
     ///
+    /// - Parameter other: A Bool value
+    /// - Returns: The result of the logical **AND** between the current value and **other**
+    ///
     /// ```swift
     ///
     ///  if canDrinkBeer
@@ -126,6 +144,9 @@ public extension Bool {
     ///
     /// Writing more complex if statements sometimes is messy.
     /// With operators you can write them:
+    ///
+    /// - Parameter other: A Bool value
+    /// - Returns: The result of the logical **OR** between the current value and **other**
     ///
     /// ```swift
     ///
@@ -148,12 +169,19 @@ public extension Bool {
     /// Converts to `Int`. When `true` returns positive value
     /// and for `false` returns `0`. Do not assume any particular
     /// integer value for `true`.
+    ///
+    /// - Returns: The Int representation of the current value
+    ///
     var toInt: Int {
         self ? 1 : 0
     }
 
     /// Creates `Bool` instance from `Int`.
     /// When `value` is `0` returns `false` and `true` for all other cases.
+    ///
+    /// - Parameter value: An Int value
+    /// - Returns: The Bool representation of **value**
+    ///
     init(fromInt value: Int) {
         self = abs(value) > 0
     }
