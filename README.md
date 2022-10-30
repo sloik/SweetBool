@@ -95,6 +95,25 @@ Converts to `Int`. When `true` returns positive value and for `false` returns `0
 
 Creates `Bool` instance from `Int`. When `value` is `0` returns `false` and `true` for all other cases.
 
+# Predicates
+
+## 'always'
+
+When you need a predicate that is always `true` or always `false` you can use a global function like so:
+
+```swift
+func takesPredicate<A>(_ p: (A) -> Bool) {... }
+
+// Before
+
+takesPredicate( { _ in true } )
+
+// now
+
+takesPredicate( always(true) )
+takesPredicate( true.always )
+```
+
 ---
 
 # 🐇🕳 Rabbit Hole
