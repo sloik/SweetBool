@@ -97,7 +97,7 @@ Creates `Bool` instance from `Int`. When `value` is `0` returns `false` and `tru
 
 # Predicates
 
-## 'always'
+## `always`
 
 When you need a predicate that is always `true` or always `false` you can use a global function like so:
 
