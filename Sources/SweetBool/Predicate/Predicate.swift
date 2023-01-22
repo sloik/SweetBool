@@ -6,13 +6,13 @@ Q: Why a type that only wraps a function?
 A: Because you cna't add extensions to function but you can to types :)
  */
 
-struct Predicate<A> {
+public struct Predicate<A> {
     let check: (A) -> Bool
 }
 
 // MARK: - Combinators
 
-extension Predicate {
+public extension Predicate {
 
     var not: Predicate<A> {
         .init { (a: A) in
@@ -47,7 +47,7 @@ extension Predicate {
 
 // MARK: - Optional
 
-extension Predicate {
+public extension Predicate {
 
     var optionalOrFalse: Predicate<A?> {
         .init { (maybe: A?) in maybe.map( self.check ) ?? false }
@@ -60,7 +60,7 @@ extension Predicate {
 
 // MARK: - Contra map
 
-extension Predicate {
+public extension Predicate {
     func contramap<FromType>(
         _ f: @escaping (FromType) -> A
     ) -> Predicate<FromType> {
