@@ -10,7 +10,9 @@ public extension String {
     static var isHttp: Predicate<String> { String.isCaseInsensitive("http") }
     var isHttp: Bool { String.isHttp.check( self ) }
 
-    var isHttps: Predicate<String> { String.isCaseInsensitive("https") }
+    static var isHttps: Predicate<String> { String.isCaseInsensitive("https") }
+    var isHttps: Bool { String.isHttps.check( self ) }
+
 
     func isExactly(_ str: String) -> Predicate<String> {
         .init { input in
