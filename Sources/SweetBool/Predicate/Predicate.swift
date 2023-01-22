@@ -10,6 +10,38 @@ struct Predicate<A> {
     let check: (A) -> Bool
 }
 
+// MARK: - Combinators
+
+extension Predicate {
+
+
+    func or(_ other: Predicate<A>) -> Predicate<A> {
+        .init { (a: A) in
+            self.check( a ) || other.check( a )
+        }
+    }
+
+    func and(_ other: Predicate<A>) -> Predicate<A> {
+        .init { (a: A) in
+            self.check( a ) && other.check( a )
+        }
+    }
+
+}
+
+// MARK: - Optional
+
+extension Predicate {
+
+    var optionalOrFalse: Predicate<A?> {
+        .init { (maybe: A?) in maybe.map( self.check ) ?? false }
+    }
+
+    var optionalOrTrue: Predicate<A?> {
+        .init { (maybe: A?) in maybe.map( self.check ) ?? true }
+    }
+}
+
 // MARK: - Contra map
 
 extension Predicate {
