@@ -107,10 +107,30 @@ struct OrPredicate<A>: PredicateType {
     }
 }
 
+extension Predicate {
+    var optionalOrFalse: Predicate<A?> {
+        .init { (a: A?) in
+            a.map(check) ?? false
+        }
+    }
+}
+
 extension PredicateType {
 
     var not: any PredicateType<Element> {
         NotPredicate(other: self)
+    }
+
+    var optionalOrFalse: any PredicateType<Element?> {
+        Predicate { (element: Element?) in
+            element.map( self.check(_:) ) ?? false
+        }
+    }
+
+    var optionalOrTrue: any PredicateType<Element?> {
+        Predicate<Element?> { (element: Element?) in
+            element.map( self.check(_:) ) ?? true
+        }
     }
 
     func and(_ other: any PredicateType<Element>) -> any PredicateType<Element>  {
