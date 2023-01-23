@@ -16,17 +16,33 @@ struct Predicate<A>: PredicateType {
     public func check(_ element: A) -> Bool {
         closure(element)
     }
+
+    func cmap<FromType>(_ f: @escaping (FromType) -> A) -> any PredicateType<FromType> {
+        Predicate<FromType> { (from: FromType) in
+            let a = f( from )
+
+            return closure(a)
+        }
+    }
 }
 
 struct TruePredicate<A>: PredicateType {
     public func check(_ element: A) -> Bool {
         true
     }
+
+    func cmap<FromType>(_ f: @escaping (FromType) -> Element) -> any PredicateType<FromType> {
+         TruePredicate<FromType>()
+    }
 }
 
 struct FalsePredicate<A>: PredicateType {
     public func check(_ element: A) -> Bool {
         false
+    }
+
+    func cmap<FromType>(_ f: @escaping (FromType) -> Element) -> any PredicateType<FromType> {
+         FalsePredicate<FromType>()
     }
 }
 
@@ -40,6 +56,10 @@ struct NotPredicate<A>: PredicateType {
 
     public func check(_ element: A) -> Bool {
         !other.check(element)
+    }
+
+    func cmap<FromType>(_ f: @escaping (FromType) -> A) -> any PredicateType<FromType> {
+        NotPredicate<FromType>(other: other.cmap( f ))
     }
 }
 
@@ -56,6 +76,13 @@ struct AndPredicate<A>: PredicateType {
     public func check(_ element: A) -> Bool {
         left.check( element ) && right.check( element )
     }
+
+    func cmap<FromType>(_ f: @escaping (FromType) -> Element) -> any PredicateType<FromType> {
+        AndPredicate<FromType>(
+            left: self.left.cmap( f ),
+            right: self.right.cmap( f )
+        )
+    }
 }
 
 struct OrPredicate<A>: PredicateType {
@@ -70,6 +97,13 @@ struct OrPredicate<A>: PredicateType {
 
     public func check(_ element: A) -> Bool {
         left.check( element ) || right.check( element )
+    }
+
+    func cmap<FromType>(_ f: @escaping (FromType) -> Element) -> any PredicateType<FromType> {
+        OrPredicate<FromType>(
+            left: self.left.cmap( f ),
+            right: self.right.cmap( f )
+        )
     }
 }
 

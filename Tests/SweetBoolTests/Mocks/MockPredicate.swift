@@ -22,6 +22,14 @@ final class MockPredicate<A>: PredicateType {
         return result
     }
 
+    func cmap<FromType>(_ f: @escaping (FromType) -> A) -> any PredicateType<FromType> {
+        MockPredicate<FromType>(wrapped: wrapped.cmap( f ) )
+    }
+
+    func cmapCasted<FromType>(_ f: @escaping (FromType) -> A) -> MockPredicate<FromType> {
+        cmap( f ) as! MockPredicate<FromType>
+    }
+
     /// Returns a new instance of mocked predicate.
     func setCheckClosure(_ closure: @escaping Consumer2I<A,Bool> ) -> Self {
         self.checkElementClosure = closure
