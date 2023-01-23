@@ -79,13 +79,6 @@ extension PredicateType {
         NotPredicate(other: self)
     }
 
-    func cmap<FromType>(_ f: @escaping (FromType) -> Element) -> any PredicateType<FromType> {
-        Predicate { (from: FromType) in
-            let element: Element = f( from )
-            return self.check( element )
-        }
-    }
-
     func and(_ other: any PredicateType<Element>) -> any PredicateType<Element>  {
         AndPredicate(left: self, right: other)
     }
