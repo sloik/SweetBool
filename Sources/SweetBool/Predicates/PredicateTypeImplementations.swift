@@ -2,11 +2,11 @@
 import Foundation
 
 /*:
-Q: Why a type that only wraps a function?
-A: Because you cna't add extensions to function but you can to types :)
+ Q: Why a type that only wraps a function?
+ A: Because you cna't add extensions to function but you can to types :)
  */
 
-struct Predicate<A>: PredicateType   {
+struct Predicate<A>: PredicateType {
     private let closure: (A) -> Bool
 
     init(closure: @escaping (A) -> Bool) {
@@ -18,13 +18,13 @@ struct Predicate<A>: PredicateType   {
     }
 }
 
-struct TruePredicate<A>: PredicateType   {
+struct TruePredicate<A>: PredicateType {
     public func check(_ element: A) -> Bool {
         true
     }
 }
 
-struct FalsePredicate<A>: PredicateType   {
+struct FalsePredicate<A>: PredicateType {
     public func check(_ element: A) -> Bool {
         false
     }
@@ -86,6 +86,9 @@ extension PredicateType {
     // and with `false` always returns `false`
     func and(_ other: FalsePredicate<Element>) -> any PredicateType<Element> { other }
 
+    // and with `true` will always be the value of self
+    func and(_ other: TruePredicate<Element>) -> any PredicateType<Element> { self }
+
     func or(_ other: any PredicateType<Element>) -> any PredicateType<Element>  {
         OrPredicate(left: self, right: other)
     }
@@ -93,18 +96,9 @@ extension PredicateType {
     func or(_ other: FalsePredicate<Element>) -> any PredicateType<Element>  {
         self
     }
+
+    func or(_ other: TruePredicate<Element>) -> any PredicateType<Element> {
+        other
+    }
 }
 
-
-func test() {
-    let andrzej: any PredicateType<Int> = Predicate { (i: Int) in i > 0 }
-    let marek: any PredicateType<Int> = Predicate { (i: Int) in i > 100 }
-
-
-    andrzej.and(marek).check( 42 )
-
-//    andrzej
-//        .and(marek)
-//        .check( 42 )
-
-}

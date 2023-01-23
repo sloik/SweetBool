@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "aliaswonderland",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sloik/AliasWonderland.git",
+      "state" : {
+        "revision" : "4bb5cccd0ea96a4ce5d228e501108bd7ecb38dcb",
+        "version" : "2.0.1"
+      }
+    }
+  ],
+  "version" : 2
+}
