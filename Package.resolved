@@ -8,6 +8,15 @@
         "revision" : "4bb5cccd0ea96a4ce5d228e501108bd7ecb38dcb",
         "version" : "2.0.1"
       }
+    },
+    {
+      "identity" : "funckeypath",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sloik/FuncKeyPath.git",
+      "state" : {
+        "revision" : "e4e6fe23f132a8859df7e6579fb0f59b262a13e8",
+        "version" : "1.0.0"
+      }
     }
   ],
   "version" : 2

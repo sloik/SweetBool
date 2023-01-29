@@ -1,6 +1,8 @@
 
 import Foundation
 
+import FuncKeyPath
+
 
 public extension String {
 
