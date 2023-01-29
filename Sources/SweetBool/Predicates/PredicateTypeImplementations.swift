@@ -107,14 +107,6 @@ struct OrPredicate<A>: PredicateType {
     }
 }
 
-extension Predicate {
-    var optionalOrFalse: Predicate<A?> {
-        .init { (a: A?) in
-            a.map(check) ?? false
-        }
-    }
-}
-
 // MARK: - Combinators Internal API
 
 extension PredicateType {

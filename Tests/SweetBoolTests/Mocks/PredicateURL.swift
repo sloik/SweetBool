@@ -2,6 +2,7 @@
 import Foundation
 
 import FuncKeyPath
+import SweetBool
 
 
 public extension String {
@@ -15,13 +16,13 @@ public extension String {
     var isHttps: Bool { String.isHttps.check( self ) }
 
     static func isExactly(_ pattern: String) -> some PredicateType<String> {
-        Predicate<String> { (checked: String) in
+        PredicateFactory.create { (checked: String) in
             checked == pattern
         }
     }
 
     static func isCaseInsensitive(_ pattern: String) -> some PredicateType<String> {
-        Predicate<String> { (checked: String) in
+        PredicateFactory.create{ (checked: String) in
              pattern.lowercased() == checked.lowercased()
          }
     }
