@@ -50,7 +50,7 @@ struct NotPredicate<A>: PredicateType {
 
     private let other: any PredicateType<A>
 
-    init(other: any PredicateType<A>) {
+    init(other: some PredicateType<A>) {
         self.other = other
     }
 
@@ -68,7 +68,7 @@ struct AndPredicate<A>: PredicateType {
     private let left: any PredicateType<A>
     private let right: any PredicateType<A>
 
-    init(left: any PredicateType<A>, right: any PredicateType<A>) {
+    init(left: some PredicateType<A>, right: some PredicateType<A>) {
         self.left = left
         self.right = right
     }
@@ -77,7 +77,7 @@ struct AndPredicate<A>: PredicateType {
         left.check( element ) && right.check( element )
     }
 
-    func cmap<FromType>(_ f: @escaping (FromType) -> Element) -> any PredicateType<FromType> {
+    func cmap<FromType>(_ f: @escaping (FromType) -> A) -> any PredicateType<FromType> {
         AndPredicate<FromType>(
             left: self.left.cmap( f ),
             right: self.right.cmap( f )
@@ -90,7 +90,7 @@ struct OrPredicate<A>: PredicateType {
     private let left: any PredicateType<A>
     private let right: any PredicateType<A>
 
-    init(left: any PredicateType<A>, right: any PredicateType<A>) {
+    init(left: some PredicateType<A>, right: some PredicateType<A>) {
         self.left = left
         self.right = right
     }
@@ -99,7 +99,7 @@ struct OrPredicate<A>: PredicateType {
         left.check( element ) || right.check( element )
     }
 
-    func cmap<FromType>(_ f: @escaping (FromType) -> Element) -> any PredicateType<FromType> {
+    func cmap<FromType>(_ f: @escaping (FromType) -> A) -> any PredicateType<FromType> {
         OrPredicate<FromType>(
             left: self.left.cmap( f ),
             right: self.right.cmap( f )
@@ -115,43 +115,27 @@ extension Predicate {
     }
 }
 
+// MARK: - Combinators Internal API
+
 extension PredicateType {
 
-    var not: any PredicateType<Element> {
-        NotPredicate(other: self)
+    /// Anything AND `false` always returns `false` so we can just return other.
+    func and(_ other: FalsePredicate<Element>) -> some PredicateType<Element> {
+        other
     }
 
-    var optionalOrFalse: any PredicateType<Element?> {
-        Predicate { (element: Element?) in
-            element.map( self.check(_:) ) ?? false
-        }
-    }
-
-    var optionalOrTrue: any PredicateType<Element?> {
-        Predicate<Element?> { (element: Element?) in
-            element.map( self.check(_:) ) ?? true
-        }
-    }
-
-    func and(_ other: any PredicateType<Element>) -> any PredicateType<Element>  {
-        AndPredicate(left: self, right: other)
-    }
-
-    // and with `false` always returns `false`
-    func and(_ other: FalsePredicate<Element>) -> any PredicateType<Element> { other }
-
-    // and with `true` will always be the value of self
-    func and(_ other: TruePredicate<Element>) -> any PredicateType<Element> { self }
-
-    func or(_ other: any PredicateType<Element>) -> any PredicateType<Element>  {
-        OrPredicate(left: self, right: other)
-    }
-
-    func or(_ other: FalsePredicate<Element>) -> any PredicateType<Element>  {
+    // AND with `true` will always be the value of self.
+    func and(_ other: TruePredicate<Element>) -> some PredicateType<Element> {
         self
     }
 
-    func or(_ other: TruePredicate<Element>) -> any PredicateType<Element> {
+    /// OR with `false` will always have the value of `self`.
+    func or(_ other: FalsePredicate<Element>) -> some PredicateType<Element>  {
+        self
+    }
+
+    /// OR with `true` will always have the value of `true`.
+    func or(_ other: TruePredicate<Element>) -> some PredicateType<Element> {
         other
     }
 }
