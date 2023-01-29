@@ -10,6 +10,22 @@ public protocol PredicateType<Element> {
     func cmap<FromType>(_ f: @escaping (FromType) -> Element) -> any PredicateType<FromType>
 }
 
+// MARK: - Factory
+
+public enum PredicateFactory<Of> {
+
+    /// Returns a predicate that ignores input and returns always `true`.
+    public static var alwaysTrue: some PredicateType<Of> { TruePredicate() }
+
+    /// Returns a predicate that ignores input and returns always `true`.
+    public static var alwaysFalse: some PredicateType<Of> { FalsePredicate() }
+
+    /// Return a predicate that will run given closure later when it's needed.
+    public static func create(_ predicateClosure: @escaping (Of) -> Bool) -> some PredicateType<Of> {
+        Predicate<Of>(closure: predicateClosure)
+    }
+}
+
 // MARK: - Combinators Public API
 
 public extension PredicateType {

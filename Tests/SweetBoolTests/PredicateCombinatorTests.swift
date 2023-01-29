@@ -3,7 +3,7 @@ import AliasWonderland
 
 @testable import SweetBool
 
-final class PredicatesTests: XCTestCase {
+final class PredicateCombinatorTests: XCTestCase {
 
 
     func test_truePredicate_shouldReturnTrue() {

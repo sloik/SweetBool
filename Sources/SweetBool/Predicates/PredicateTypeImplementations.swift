@@ -31,7 +31,7 @@ struct TruePredicate<A>: PredicateType {
         true
     }
 
-    func cmap<FromType>(_ f: @escaping (FromType) -> Element) -> any PredicateType<FromType> {
+    func cmap<FromType>(_ f: @escaping (FromType) -> A) -> any PredicateType<FromType> {
          TruePredicate<FromType>()
     }
 }
@@ -41,7 +41,7 @@ struct FalsePredicate<A>: PredicateType {
         false
     }
 
-    func cmap<FromType>(_ f: @escaping (FromType) -> Element) -> any PredicateType<FromType> {
+    func cmap<FromType>(_ f: @escaping (FromType) -> A) -> any PredicateType<FromType> {
          FalsePredicate<FromType>()
     }
 }
