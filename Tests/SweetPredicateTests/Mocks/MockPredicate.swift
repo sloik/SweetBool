@@ -1,7 +1,7 @@
 
 import Foundation
 
-import SweetBool
+import SweetPredicate
 import AliasWonderland
 
 final class MockPredicate<A>: PredicateType {

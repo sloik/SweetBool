@@ -13,7 +13,14 @@ let package = Package(
         .library(
             name: "SweetBool",
             type: .dynamic,
-            targets: ["SweetBool"]),
+            targets: ["SweetBool"]
+        ),
+
+        .library(
+            name: "SweetPredicate",
+            type: .dynamic,
+            targets: ["SweetPredicate"]
+        ),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -33,6 +40,18 @@ let package = Package(
             name: "SweetBoolTests",
             dependencies: [
                 "SweetBool",
+                "AliasWonderland",
+            ]
+        ),
+
+        .target(
+            name: "SweetPredicate",
+            dependencies: [
+            ]),
+        .testTarget(
+            name: "SweetPredicateTests",
+            dependencies: [
+                "SweetPredicate",
                 "AliasWonderland",
             ]
         ),

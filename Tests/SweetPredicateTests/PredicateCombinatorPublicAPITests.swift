@@ -1,7 +1,7 @@
 import XCTest
 import AliasWonderland
 
-import SweetBool
+import SweetPredicate
 
 final class PredicateCombinatorPublicAPITests: XCTestCase {
 

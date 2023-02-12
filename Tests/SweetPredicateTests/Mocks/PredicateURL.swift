@@ -2,7 +2,7 @@
 import Foundation
 
 import FuncKeyPath
-import SweetBool
+import SweetPredicate
 
 
 public extension String {

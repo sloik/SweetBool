@@ -1,7 +1,7 @@
 import XCTest
 import AliasWonderland
 
-@testable import SweetBool
+@testable import SweetPredicate
 
 final class PredicateCombinatorTests: XCTestCase {
 
