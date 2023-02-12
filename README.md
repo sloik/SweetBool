@@ -118,7 +118,7 @@ takesPredicate( true.always )
 
 # SweetPredicate
 
-Library for handeling predicates as types.
+Library for handling predicates as types.
 
 ## WiP
 
