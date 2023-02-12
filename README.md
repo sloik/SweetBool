@@ -116,6 +116,14 @@ takesPredicate( always(true) )
 takesPredicate( true.always )
 ```
 
+# SweetPredicate
+
+Library for handeling predicates as types.
+
+## WiP
+
+Working on a design and on documentation. You are more than welcome to take a look and play around with it.
+
 ---
 
 # 🐇🕳 Rabbit Hole
