@@ -18,13 +18,13 @@ public protocol PredicateType<Element> {
 public enum PredicateFactory<Of> {
 
     /// Returns a predicate that ignores input and returns always `true`.
-    public static var alwaysTrue: some PredicateType<Of> { TruePredicate() }
+    public static var alwaysTrue: any PredicateType<Of> { TruePredicate() }
 
     /// Returns a predicate that ignores input and returns always `true`.
-    public static var alwaysFalse: some PredicateType<Of> { FalsePredicate() }
+    public static var alwaysFalse: any PredicateType<Of> { FalsePredicate() }
 
     /// Return a predicate that will run given closure later when it's needed.
-    public static func create(_ predicateClosure: @escaping (Of) -> Bool) -> some PredicateType<Of> {
+    public static func create(_ predicateClosure: @escaping (Of) -> Bool) -> any PredicateType<Of> {
         Predicate<Of>(closure: predicateClosure)
     }
 }
@@ -34,13 +34,13 @@ public enum PredicateFactory<Of> {
 public extension PredicateType {
 
     /// Returns a new predicate that will have it's logic flipped.
-    var not: some PredicateType<Element> {
+    var not: any PredicateType<Element> {
         NotPredicate(other: self)
     }
 
     /// Returns a predicate that expects an `Optional`.
     /// Will return `false` when given element is `.none`.
-    var optionalOrFalse: some PredicateType<Element?> {
+    var optionalOrFalse: any PredicateType<Element?> {
         Predicate { (element: Element?) in
             element.map( self.check(_:) ) ?? false
         }
@@ -55,12 +55,12 @@ public extension PredicateType {
     }
 
     /// Returns a new predicate which is `self && other`.
-    func and(_ other: some PredicateType<Element>) -> some PredicateType<Element>  {
+    func and(_ other: any PredicateType<Element>) -> any PredicateType<Element>  {
         AndPredicate(left: self, right: other)
     }
 
     /// Returns a new predicate which is `self || other`.
-    func or(_ other: some PredicateType<Element>) -> some PredicateType<Element>  {
+    func or(_ other: any PredicateType<Element>) -> any PredicateType<Element>  {
         OrPredicate(left: self, right: other)
     }
 }

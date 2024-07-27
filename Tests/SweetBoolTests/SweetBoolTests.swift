@@ -1,6 +1,7 @@
 import XCTest
 import SweetBool
 
+@MainActor
 final class SweetBoolTests: XCTestCase {
     
     func test_isTrue() throws {

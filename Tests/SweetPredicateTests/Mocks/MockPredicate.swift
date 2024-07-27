@@ -13,7 +13,7 @@ final class MockPredicate<A>: PredicateType {
     }
 
     /// Argument and result of calling wrapped predicate.
-    var checkElementClosure: Consumer2I<A,Bool>?
+    var checkElementClosure: Consumer<A,Bool>?
 
     func check(_ element: A) -> Bool {
         let result = wrapped.check( element )
@@ -31,7 +31,7 @@ final class MockPredicate<A>: PredicateType {
     }
 
     /// Returns a new instance of mocked predicate.
-    func setCheckClosure(_ closure: @escaping Consumer2I<A,Bool> ) -> Self {
+    func setCheckClosure(_ closure: @escaping Consumer<A,Bool> ) -> Self {
         self.checkElementClosure = closure
         return self
     }

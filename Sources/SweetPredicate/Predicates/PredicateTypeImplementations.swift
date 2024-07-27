@@ -50,7 +50,7 @@ struct NotPredicate<A>: PredicateType {
 
     private let other: any PredicateType<A>
 
-    init(other: some PredicateType<A>) {
+    init(other: any PredicateType<A>) {
         self.other = other
     }
 
@@ -68,7 +68,7 @@ struct AndPredicate<A>: PredicateType {
     private let left: any PredicateType<A>
     private let right: any PredicateType<A>
 
-    init(left: some PredicateType<A>, right: some PredicateType<A>) {
+    init(left: any PredicateType<A>, right: any PredicateType<A>) {
         self.left = left
         self.right = right
     }
@@ -90,7 +90,7 @@ struct OrPredicate<A>: PredicateType {
     private let left: any PredicateType<A>
     private let right: any PredicateType<A>
 
-    init(left: some PredicateType<A>, right: some PredicateType<A>) {
+    init(left: any PredicateType<A>, right: any PredicateType<A>) {
         self.left = left
         self.right = right
     }
@@ -112,22 +112,22 @@ struct OrPredicate<A>: PredicateType {
 extension PredicateType {
 
     /// Anything AND `false` always returns `false` so we can just return other.
-    func and(_ other: FalsePredicate<Element>) -> some PredicateType<Element> {
+    func and(_ other: FalsePredicate<Element>) -> any PredicateType<Element> {
         other
     }
 
     // AND with `true` will always be the value of self.
-    func and(_ other: TruePredicate<Element>) -> some PredicateType<Element> {
+    func and(_ other: TruePredicate<Element>) -> any PredicateType<Element> {
         self
     }
 
     /// OR with `false` will always have the value of `self`.
-    func or(_ other: FalsePredicate<Element>) -> some PredicateType<Element>  {
+    func or(_ other: FalsePredicate<Element>) -> any PredicateType<Element>  {
         self
     }
 
     /// OR with `true` will always have the value of `true`.
-    func or(_ other: TruePredicate<Element>) -> some PredicateType<Element> {
+    func or(_ other: TruePredicate<Element>) -> any PredicateType<Element> {
         other
     }
 }
