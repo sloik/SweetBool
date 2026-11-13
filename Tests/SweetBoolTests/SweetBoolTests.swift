@@ -101,6 +101,8 @@ final class SweetBoolTests: XCTestCase {
             "Zero should be treated as false"
         )
 
+        XCTAssertTrue( Bool(fromInt: Int.min) )   // abs(Int.min) used to trap
+        XCTAssertTrue( Bool(fromInt: Int.max) )
         XCTAssertTrue( Bool(fromInt: true.toInt) )
         XCTAssertFalse( Bool(fromInt: false.toInt) )
     }

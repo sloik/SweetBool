@@ -16,6 +16,7 @@ Preds   == [X -> BOOLEAN]
 PredsY  == [Y -> BOOLEAN]
 Contra  == [Y -> X]                     \* the f in cmap(f)
 Ints    == -2..2
+IntMin  == -2                            \* stands for Int.min: abs(Int.min) overflows
 
 ConstT == [x \in X |-> TRUE]
 ConstF == [x \in X |-> FALSE]
@@ -42,7 +43,12 @@ OrTrueFast(p)   == ConstT
 BAnd(a, b) == a /\ b
 BOr(a, b)  == a \/ b
 ToInt(b)   == IF b THEN 1 ELSE 0
-FromInt(n) == IF Mutant = "fromint_positive_only" THEN n > 0 ELSE (IF n < 0 THEN -n ELSE n) > 0
+\* init(fromInt:) is `value != 0` (1.1.4). Result as a string so a trap can be represented.
+FromIntR(n) ==
+  IF Mutant = "legacy_abs_trap" /\ n = IntMin THEN "trap"   \* pre-1.1.4: abs(value) > 0
+  ELSE IF Mutant = "fromint_positive_only" THEN (IF n > 0 THEN "true" ELSE "false")
+  ELSE IF n # 0 THEN "true" ELSE "false"
+FromInt(n) == FromIntR(n) = "true"
 BiTransform(b, yes, no) == IF b THEN yes ELSE no
 \* whenTrue / whenFalse: <<returned value, number of closure runs>>
 WhenTrue(b)  == <<b, IF b THEN 1 ELSE 0>>
@@ -78,6 +84,7 @@ ToIntFromIntRoundTrip ==
   /\ FromInt(ToInt(s.a)) = s.a
   /\ ToInt(FALSE) = 0 /\ ToInt(TRUE) > 0
 FromIntNonzeroIsTrue == FromInt(s.n) = (s.n # 0)
+FromIntTotal == FromIntR(s.n) \in {"true", "false"}   \* never traps, including Int.min
 \* always(b) ignores its arguments and returns b.
 AlwaysConstant ==
   /\ \A x \in X : Always1(s.a)[x] = s.a

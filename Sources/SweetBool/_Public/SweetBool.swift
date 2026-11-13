@@ -243,6 +243,7 @@ public extension Bool {
     /// - Returns: The Bool representation of **value**
     ///
     init(fromInt value: Int) {
-        self = abs(value) > 0
+        // Not `abs(value) > 0`: abs(Int.min) overflows and traps.
+        self = value != 0
     }
 }
