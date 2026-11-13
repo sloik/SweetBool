@@ -13,7 +13,7 @@ predicate and closure, not just examples. Swift generics are abstracted to `X`/`
 | `BoolSugar` | `isTrue`, `isFalse`, `negated`, `and`, `or`: equal to `==`/`!`/`&&`/`\|\|`, commutative, De Morgan, double negation |
 | `WhenHooks` | `whenTrue` / `whenFalse` return self and exactly one branch closure runs |
 | `BiTransformIsConditional` | `biTransform(yes:no:)` |
-| `ToIntFromIntRoundTrip`, `FromIntNonzeroIsTrue` | `toInt`, `init(fromInt:)` (0 -> false, other -> true) |
+| `ToIntFromIntRoundTrip`, `FromIntNonzeroIsTrue`, `FromIntTotal` | `toInt`, `init(fromInt:)` (0 -> false, other -> true, never traps; `-2` stands for `Int.min`) |
 | `AlwaysConstant` | `always(_:)` free functions and `Bool.always()` (1 and 2 arguments) |
 | `CheckSemantics` | `check` of `and` / `or` / `not` / `alwaysTrue` / `alwaysFalse` |
 | `Commutativity`, `Associativity`, `Idempotence`, `Absorption`, `Distributivity` | `PredicateType.and` / `or` form a distributive lattice |
@@ -35,6 +35,7 @@ invariant that must catch it (`\* EXPECT_VIOLATION: ...`); `run_tlc.sh` fails if
 | `cmap_ignores_f` | `cmap` drops its function | `CmapIdentity` |
 | `and_true_fast_wrong` | `and(TruePredicate)` returns always-true | `FastPathsAgree` |
 | `fromint_positive_only` | negative ints map to false | `FromIntNonzeroIsTrue` |
+| `legacy_abs_trap` | the pre-1.1.4 `abs(Int.min)` trap | `FromIntTotal` |
 
 ## Running
 
@@ -48,11 +49,8 @@ self-hosted Oracle ARM64 runner, only on pushes to `main` or by manual dispatch
 
 ## Findings
 
-- `Bool.init(fromInt:)` is `abs(value) > 0`. In Swift `abs(Int.min)` traps (overflow), so
-  `Bool(fromInt: Int.min)` crashes instead of returning `true`. The model uses a small integer
-  range and cannot show this; `FromIntNonzeroIsTrue` holds for all modelled values. The unit
-  test draws negatives from `Int.min..<0`, so it can hit this with probability 2^-63. Swift
-  code is unchanged; a fix would be `value != 0`.
+- **Fixed in 1.1.4:** `Bool.init(fromInt:)` was `abs(value) > 0`, and `abs(Int.min)` traps in Swift,
+  so `Bool(fromInt: Int.min)` crashed. It is now `value != 0`, and the old bug is the `legacy_abs_trap` mutant.
 - `toInt` is specified as "positive for true, do not assume a value"; the model checks only
   `> 0` and `0`.
 
